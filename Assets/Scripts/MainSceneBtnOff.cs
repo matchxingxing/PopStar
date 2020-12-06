@@ -30,17 +30,21 @@ public class MainSceneBtnOff : MonoBehaviour
 
     void LoadScene()
     {
-        //清理场景用的临时数据
+        //打扫战场，清理场景用的临时数据
         foreach (var item in Constant.GetStarDataInstance())
         {
             item.Clear();
+        }
+        foreach (var item in Constant.GetSameStarDataInstance())
+        {
+            item.Value.Clear();
         }
         Constant.GetStarDataInstance().Clear();
         Constant.GetPopStarDataInstance().Clear();
         Constant.GetSameStarDataInstance().Clear();
         Constant.CurrScore = 0;
         Constant.CurrStage = 1;
-        //清理场景用的临时数据 end
+        //打扫战场，清理场景用的临时数据 end
 
         SceneManager.LoadScene(Constant.LoadingScene);
     }

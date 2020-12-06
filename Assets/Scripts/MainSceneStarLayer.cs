@@ -71,6 +71,7 @@ public class MainSceneStarLayer : MonoBehaviour
             //break;
         }
 
+        //test
         /*foreach (var item in Constant.GetStarDataInstance())
         {
             foreach (var item2 in item)
@@ -110,7 +111,7 @@ public class MainSceneStarLayer : MonoBehaviour
             AudioList[3].Play();
 
             FindObjectOfType<Canvas>().transform.Find("BtnSys").GetComponent<Button>().enabled = false;
-            Invoke("DelayNextStageTimer", 5.5f);
+            Invoke("DelayNextStageTimer", 3.3f);
             return;
         }
         //检测是否已经过关 end
@@ -143,14 +144,18 @@ public class MainSceneStarLayer : MonoBehaviour
     {
         //Debug.Log("当前：" + Star.name);
         //加入同样颜色的星星列队，递归完后超过Constant.PopSameStarCount个就消除
-        foreach (var item in Constant.GetSameStarDataInstance())
+        /*foreach (var item in Constant.GetSameStarDataInstance()[Star.tag])
         {
             if (Star.name == item.name)
             {
                 return;
             }
+        }*/
+        if (Constant.GetSameStarDataInstance()[Star.tag].Contains(Star))
+        {
+            return;
         }
-        Constant.GetSameStarDataInstance().Enqueue(Star);
+        Constant.GetSameStarDataInstance()[Star.tag].Enqueue(Star);
 
         SpriteRenderer StarUp = null,
             StarDown = null,
@@ -236,27 +241,36 @@ public class MainSceneStarLayer : MonoBehaviour
 
     void PopSameStar()
     {
-        if (Constant.GetSameStarDataInstance().Count >= Constant.PopSameStarCount)
+        ulong score = 0;
+        foreach (var item in Constant.GetSameStarDataInstance()) {
+            if (item.Value.Count >= Constant.PopSameStarCount)
+            {
+                uint star_count = (uint)item.Value.Count;
+                uint mult = star_count / Constant.PopSameStarCount;
+
+                while (item.Value.Count > 0)
+                {
+                    SpriteRenderer star = item.Value.Dequeue();
+                    //Debug.Log("消除了同色的星星：" + star.name + "=====" + star.tag);
+                    star.GetComponent<Star>().Pop();
+                }
+
+                //分数加成计算
+                score += mult * star_count * Constant.PopSameScoreMult * Constant.PopStarScore;
+            }
+            else
+            {
+                item.Value.Clear();
+            }
+        }
+
+        if (score > 0)
         {
             //播放效果音
             AudioSource[] AudioList = FindObjectOfType<Camera>().GetComponents<AudioSource>();
             AudioList[2].Play();
 
-            uint star_count = (uint)Constant.GetSameStarDataInstance().Count;
-            uint mult = star_count / Constant.PopSameStarCount;
-            while (Constant.GetSameStarDataInstance().Count > 0)
-            {
-                SpriteRenderer star = Constant.GetSameStarDataInstance().Dequeue();
-                //Debug.Log("消除了同色的星星：" + star.name + "=====" + star.tag);
-                star.GetComponent<Star>().Pop();
-            }
-            //分数加成计算
-            ulong score = mult * star_count * Constant.PopSameScoreMult * Constant.PopStarScore;
             UpdateScore(score);
-        }
-        else
-        {
-            Constant.GetSameStarDataInstance().Clear();
         }
     }
 
@@ -270,15 +284,19 @@ public class MainSceneStarLayer : MonoBehaviour
 
         PlayerPrefs.SetInt(Constant.NextSceneIndex, Constant.MainScene);
 
-        //清理场景用的临时数据
+        //打扫战场，清理场景用的临时数据
         foreach (var item in Constant.GetStarDataInstance())
         {
             item.Clear();
         }
+        foreach (var item in Constant.GetSameStarDataInstance())
+        {
+            item.Value.Clear();
+        }
         Constant.GetStarDataInstance().Clear();
         Constant.GetPopStarDataInstance().Clear();
         Constant.GetSameStarDataInstance().Clear();
-        //清理场景用的临时数据 end
+        //打扫战场，清理场景用的临时数据 end
 
         SceneManager.LoadScene(Constant.LoadingScene);
     }

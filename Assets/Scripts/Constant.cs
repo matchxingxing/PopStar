@@ -74,9 +74,9 @@ public class Constant
     }
 
     //同样颜色的星星列队，超过PopSameStarCount个就消除
-    private static Queue<SpriteRenderer> SameStarDataInstance;
+    private static Dictionary<string, Queue<SpriteRenderer>> SameStarDataInstance;
     private static object SameStarDataInstanceLock = new object();
-    public static Queue<SpriteRenderer> GetSameStarDataInstance()
+    public static Dictionary<string, Queue<SpriteRenderer>> GetSameStarDataInstance()
     {
         if (SameStarDataInstance == null)
         {
@@ -84,7 +84,12 @@ public class Constant
             {
                 if (SameStarDataInstance == null)
                 {
-                    SameStarDataInstance = new Queue<SpriteRenderer>();
+                    SameStarDataInstance = new Dictionary<string, Queue<SpriteRenderer>>();
+                    GameObject StarLayerSrc = GameObject.Find("StarLayerSrc");
+                    for (int i = 0; i < StarLayerSrc.transform.childCount; i++)
+                    {
+                        SameStarDataInstance.Add(StarLayerSrc.transform.GetChild(i).tag, new Queue<SpriteRenderer>());
+                    }
                 }
             }
         }
