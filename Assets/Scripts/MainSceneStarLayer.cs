@@ -125,13 +125,13 @@ public class MainSceneStarLayer : MonoBehaviour
 
             for (int i = 0; i < Constant.GetStarDataInstance()[curr_x].Count; i++)
             {
-                SpriteRenderer Star = Constant.GetStarDataInstance()[curr_x][i];
-                string[] s2 = Star.name.Split('_');
+                SpriteRenderer star = Constant.GetStarDataInstance()[curr_x][i];
+                string[] s2 = star.name.Split('_');
                 int curr_y2 = int.Parse(s2[2]);
                 if (curr_y2 > curr_y)
                 {
                     //递归检测同颜色的星星
-                    CheckStar(Star);
+                    CheckStar(star);
 
                     //消除同色的星星
                     PopSameStar();
@@ -140,41 +140,41 @@ public class MainSceneStarLayer : MonoBehaviour
         }
     }
 
-    void CheckStar(SpriteRenderer Star)
+    void CheckStar(SpriteRenderer star)
     {
-        //Debug.Log("当前：" + Star.name);
+        //Debug.Log("当前：" + star.name);
         //加入同样颜色的星星列队，递归完后超过Constant.PopSameStarCount个就消除
-        /*foreach (var item in Constant.GetSameStarDataInstance()[Star.tag])
+        /*foreach (var item in Constant.GetSameStarDataInstance()[star.tag])
         {
-            if (Star.name == item.name)
+            if (star.name == item.name)
             {
                 return;
             }
         }*/
-        if (Constant.GetSameStarDataInstance()[Star.tag].Contains(Star))
+        if (Constant.GetSameStarDataInstance()[star.tag].Contains(star))
         {
             return;
         }
-        Constant.GetSameStarDataInstance()[Star.tag].Enqueue(Star);
+        Constant.GetSameStarDataInstance()[star.tag].Enqueue(star);
 
         SpriteRenderer StarUp = null,
             StarDown = null,
             StarLeft = null,
             StarRight = null;
 
-        string[] s = Star.name.Split('_');
+        string[] s = star.name.Split('_');
         int curr_x = int.Parse(s[1]);
         int curr_y = int.Parse(s[2]);
 
         //上
         for (int i = 0; i < Constant.GetStarDataInstance()[curr_x].Count; i++)
         {
-            SpriteRenderer Star2 = Constant.GetStarDataInstance()[curr_x][i];
-            string[] s2 = Star2.name.Split('_');
+            SpriteRenderer star2 = Constant.GetStarDataInstance()[curr_x][i];
+            string[] s2 = star2.name.Split('_');
             int curr_y2 = int.Parse(s2[2]);
             if (StarUp == null && curr_y2 > curr_y)
             {
-                StarUp = Star2;
+                StarUp = star2;
                 break;
             }
         }
@@ -182,12 +182,12 @@ public class MainSceneStarLayer : MonoBehaviour
         //下
         for (int i = Constant.GetStarDataInstance()[curr_x].Count - 1; i >= 0; i--)
         {
-            SpriteRenderer Star2 = Constant.GetStarDataInstance()[curr_x][i];
-            string[] s2 = Star2.name.Split('_');
+            SpriteRenderer star2 = Constant.GetStarDataInstance()[curr_x][i];
+            string[] s2 = star2.name.Split('_');
             int curr_y2 = int.Parse(s2[2]);
             if (StarDown == null && curr_y2 < curr_y)
             {
-                StarDown = Star2;
+                StarDown = star2;
                 break;
             }
         }
@@ -195,8 +195,8 @@ public class MainSceneStarLayer : MonoBehaviour
         //左右
         for (int i = 0; i < Constant.GetStarDataInstance()[curr_x].Count; i++)
         {
-            SpriteRenderer Star2 = Constant.GetStarDataInstance()[curr_x][i];
-            string[] s2 = Star2.name.Split('_');
+            SpriteRenderer star2 = Constant.GetStarDataInstance()[curr_x][i];
+            string[] s2 = star2.name.Split('_');
             int curr_y2 = int.Parse(s2[2]);
             if (StarLeft == null && curr_x > 0 && curr_y2 == curr_y)
             {
@@ -217,22 +217,22 @@ public class MainSceneStarLayer : MonoBehaviour
         }
         
         //相同颜色就进入递归处理
-        if (StarUp != null && StarUp.tag == Star.tag)
+        if (StarUp != null && StarUp.tag == star.tag)
         {
             CheckStar(StarUp);
             //Debug.Log("上：" + StarUp.name + "====tag:" + StarUp.tag);
         }
-        if (StarDown != null && StarDown.tag == Star.tag)
+        if (StarDown != null && StarDown.tag == star.tag)
         {
             CheckStar(StarDown);
             //Debug.Log("下：" + StarDown.name + "====tag:" + StarDown.tag);
         }
-        if (StarLeft != null && StarLeft.tag == Star.tag)
+        if (StarLeft != null && StarLeft.tag == star.tag)
         {
             CheckStar(StarLeft);
             //Debug.Log("左：" + StarLeft.name + "====tag:" + StarLeft.tag);
         }
-        if (StarRight != null && StarRight.tag == Star.tag)
+        if (StarRight != null && StarRight.tag == star.tag)
         {
             CheckStar(StarRight);
             //Debug.Log("右：" + StarRight.name + "====tag:" + StarRight.tag);
@@ -310,9 +310,9 @@ public class MainSceneStarLayer : MonoBehaviour
     void DelayRestoreEnabledClickEventTimer() 
     {
         SpriteRenderer[] StarList = GameObject.Find("StarLayer").GetComponentsInChildren<SpriteRenderer>();
-        foreach (var Star in StarList)
+        foreach (var star in StarList)
         {
-            Star.GetComponent<Star>().enabledClickEvent = true;
+            star.GetComponent<Star>().enabledClickEvent = true;
         }
     }
     //防止暴力测试出现的星星卡死在中间的问题 end

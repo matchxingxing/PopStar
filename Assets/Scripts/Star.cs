@@ -41,9 +41,9 @@ public class Star : MonoBehaviour
         }
 
         SpriteRenderer[] StarList = StarLayer.GetComponentsInChildren<SpriteRenderer>();
-        foreach (var Star in StarList)
+        foreach (var star in StarList)
         {
-            Star.GetComponent<Star>().enabledClickEvent = false;
+            star.GetComponent<Star>().enabledClickEvent = false;
         }
         StarLayer.GetComponent<MainSceneStarLayer>().DelayRestoreEnabledClickEvent();
         //防止暴力测试出现的星星卡死在中间的问题 end
@@ -74,11 +74,11 @@ public class Star : MonoBehaviour
         foreach (var StarList in Constant.GetStarDataInstance())
         {
             bool do_remove = false;
-            foreach (var Star in StarList)
+            foreach (var star in StarList)
             {
-                if (name == Star.name)
+                if (name == star.name)
                 {
-                    StarList.Remove(Star);
+                    StarList.Remove(star);
                     do_remove = true;
                     break;
                 }
