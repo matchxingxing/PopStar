@@ -295,7 +295,6 @@ public class MainSceneStarLayer : MonoBehaviour
         }
         Constant.GetStarDataInstance().Clear();
         Constant.GetPopStarDataInstance().Clear();
-        Constant.GetSameStarDataInstance().Clear();
         //打扫战场，清理场景用的临时数据 end
 
         SceneManager.LoadScene(Constant.LoadingScene);

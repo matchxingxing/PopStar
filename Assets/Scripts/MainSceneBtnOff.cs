@@ -41,7 +41,6 @@ public class MainSceneBtnOff : MonoBehaviour
         }
         Constant.GetStarDataInstance().Clear();
         Constant.GetPopStarDataInstance().Clear();
-        Constant.GetSameStarDataInstance().Clear();
         Constant.CurrScore = 0;
         Constant.CurrStage = 1;
         //打扫战场，清理场景用的临时数据 end
