@@ -108,10 +108,12 @@ public class MainSceneStarLayer : MonoBehaviour
         {
             AudioSource[] AudioList = FindObjectOfType<Camera>().GetComponents<AudioSource>();
             AudioList[0].Stop();
-            AudioList[3].Play();
 
-            FindObjectOfType<Canvas>().transform.Find("BtnSys").GetComponent<Button>().enabled = false;
-            Invoke("DelayNextStageTimer", 3.3f);
+            Transform transform_root = FindObjectOfType<Canvas>().transform;
+            transform_root.Find("BtnSys").GetComponent<Button>().enabled = false;
+            transform_root.Find("BtnInfo").GetComponent<Button>().enabled = false;
+            transform_root.Find("BtnOff").GetComponent<Button>().enabled = false;
+            PlayAudioCallback(AudioList[3], NextStage);
             return;
         }
         //检测是否已经过关 end
@@ -274,7 +276,7 @@ public class MainSceneStarLayer : MonoBehaviour
         }
     }
 
-    void DelayNextStageTimer()
+    void NextStage()
     {
         Constant.CurrStage++;
         if (Constant.CurrStage > Constant.MaxStage)
@@ -325,5 +327,19 @@ public class MainSceneStarLayer : MonoBehaviour
         }
         FindObjectOfType<Canvas>().transform.Find("ScoreN").GetComponent<Text>().text = Constant.CurrScore.ToString();
     }
+
+    //声音播放的回调
+    delegate void AudioCallBack();
+    void PlayAudioCallback(AudioSource audio, AudioCallBack callback)
+    {
+        audio.Play();
+        StartCoroutine(DelayedCallback(audio.clip.length, callback));
+    }
+    IEnumerator DelayedCallback(float time, AudioCallBack callback)
+    {
+        yield return new WaitForSeconds(time);
+        callback();
+    }
+    //声音播放的回调 end
 
 }

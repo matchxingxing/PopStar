@@ -12,13 +12,11 @@ public class MainSceneBtnOff : MonoBehaviour
         Button btnOff = GetComponent<Button>();
         btnOff.onClick.AddListener(delegate ()
         {
-            AudioSource audio = GetComponent<AudioSource>();
-            audio.Play();
+            PlayAudioCallback(GetComponent<AudioSource>(), LoadScene);
 
             //loading需要读取的场景
             PlayerPrefs.SetInt(Constant.NextSceneIndex, Constant.OpeningScene);
             btnOff.enabled = false;
-            Invoke("LoadScene", 1f);
         });
     }
 
@@ -47,5 +45,19 @@ public class MainSceneBtnOff : MonoBehaviour
 
         SceneManager.LoadScene(Constant.LoadingScene);
     }
+
+    //声音播放的回调
+    delegate void AudioCallBack();
+    void PlayAudioCallback(AudioSource audio, AudioCallBack callback)
+    {
+        audio.Play();
+        StartCoroutine(DelayedCallback(audio.clip.length, callback));
+    }
+    IEnumerator DelayedCallback(float time, AudioCallBack callback)
+    {
+        yield return new WaitForSeconds(time);
+        callback();
+    }
+    //声音播放的回调 end
 
 }
