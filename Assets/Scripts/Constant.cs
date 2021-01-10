@@ -8,10 +8,6 @@ public class Constant
     public static readonly int LoadingScene = 1;
     public static readonly int MainScene = 2;
 
-    //这里跟player窗口设置的大小一样
-    public static readonly float WindowWidth = 828f;
-    public static readonly float WindowHeight = 1472f;
-
     //同样颜色的星星，超过n个就消除
     public static readonly uint PopSameStarCount = 4;
 

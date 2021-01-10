@@ -12,9 +12,6 @@ public class MainSceneStarLayer : MonoBehaviour
         //本游戏的x坐标固定在-5.607到-5.607，y坐标固定在-10到10
 
         Canvas canvas = FindObjectOfType<Canvas>();
-        CanvasScaler canvas_scaler = canvas.GetComponent<CanvasScaler>();
-        canvas_scaler.referenceResolution = new Vector2(Constant.WindowWidth, Constant.WindowHeight);
-
         canvas.transform.Find("StageN").GetComponent<Text>().text = Constant.CurrStage.ToString();
         canvas.transform.Find("ScoreN").GetComponent<Text>().text = Constant.CurrScore.ToString();
 
