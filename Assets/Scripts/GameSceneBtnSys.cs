@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class MainSceneBtnSys : MonoBehaviour
+public class GameSceneBtnSys : MonoBehaviour
 {
     private bool isOpenBtnMenu = false;
 

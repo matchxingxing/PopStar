@@ -4,9 +4,9 @@ using UnityEngine;
 public class Constant
 {
     //场景索引
-    public static readonly int OpeningScene = 0;
+    public static readonly int MainScene = 0;
     public static readonly int LoadingScene = 1;
-    public static readonly int MainScene = 2;
+    public static readonly int GameScene = 2;
 
     //同样颜色的星星，超过n个就消除
     public static readonly uint PopSameStarCount = 4;

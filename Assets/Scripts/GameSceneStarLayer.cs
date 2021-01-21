@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class MainSceneStarLayer : MonoBehaviour
+public class GameSceneStarLayer : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
@@ -285,7 +285,7 @@ public class MainSceneStarLayer : MonoBehaviour
             Constant.CurrStage = Constant.MaxStage;
         }
 
-        PlayerPrefs.SetInt(Constant.NextSceneIndex, Constant.MainScene);
+        PlayerPrefs.SetInt(Constant.NextSceneIndex, Constant.GameScene);
 
         //打扫战场，清理场景用的临时数据
         foreach (var item in Constant.GetStarDataInstance())

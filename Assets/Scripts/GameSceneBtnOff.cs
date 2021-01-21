@@ -4,19 +4,19 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class OpeningSceneBtnStart : MonoBehaviour
+public class GameSceneBtnOff : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Button btnStart = GetComponent<Button>();
-        btnStart.onClick.AddListener(delegate ()
+        Button btnOff = GetComponent<Button>();
+        btnOff.onClick.AddListener(delegate ()
         {
             PlayAudioCallback(GetComponent<AudioSource>(), LoadScene);
 
             //loading需要读取的场景
             PlayerPrefs.SetInt(Constant.NextSceneIndex, Constant.MainScene);
-            btnStart.enabled = false;
+            btnOff.enabled = false;
         });
     }
 
@@ -28,6 +28,21 @@ public class OpeningSceneBtnStart : MonoBehaviour
 
     void LoadScene()
     {
+        //打扫战场，清理场景用的临时数据
+        foreach (var item in Constant.GetStarDataInstance())
+        {
+            item.Clear();
+        }
+        foreach (var item in Constant.GetSameStarDataInstance())
+        {
+            item.Value.Clear();
+        }
+        Constant.GetStarDataInstance().Clear();
+        Constant.GetPopStarDataInstance().Clear();
+        Constant.CurrScore = 0;
+        Constant.CurrStage = 1;
+        //打扫战场，清理场景用的临时数据 end
+
         SceneManager.LoadScene(Constant.LoadingScene);
     }
 

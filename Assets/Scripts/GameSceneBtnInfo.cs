@@ -3,19 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class OpeningSceneBtnExit : MonoBehaviour
+public class GameSceneBtnInfo : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
-        Button btnExit = GetComponent<Button>();
-        btnExit.onClick.AddListener(delegate ()
+
+        Button btnInfo = GetComponent<Button>();
+        btnInfo.onClick.AddListener(delegate ()
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            AudioSource audio = GetComponent<AudioSource>();
+            audio.Play();
+
+            Debug.Log("点击了info按钮");
+
         });
     }
 

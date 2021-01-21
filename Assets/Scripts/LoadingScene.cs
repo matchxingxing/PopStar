@@ -26,7 +26,7 @@ public class LoadingScene : MonoBehaviour
         GameObject btnStart = GameObject.Find("LoadingMsg");
         btnStartText = btnStart.GetComponent<Text>();
 
-        int next_scene_index = PlayerPrefs.GetInt(Constant.NextSceneIndex, Constant.OpeningScene);
+        int next_scene_index = PlayerPrefs.GetInt(Constant.NextSceneIndex, Constant.MainScene);
         StartCoroutine(LoadScene(next_scene_index));
     }
 

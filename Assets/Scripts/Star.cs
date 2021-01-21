@@ -45,7 +45,7 @@ public class Star : MonoBehaviour
         {
             star.GetComponent<Star>().enabledClickEvent = false;
         }
-        StarLayer.GetComponent<MainSceneStarLayer>().DelayRestoreEnabledClickEvent();
+        StarLayer.GetComponent<GameSceneStarLayer>().DelayRestoreEnabledClickEvent();
         //防止暴力测试出现的星星卡死在中间的问题 end
 
         //播放效果音
@@ -55,10 +55,10 @@ public class Star : MonoBehaviour
         Pop();
 
         //增加分数
-        StarLayer.GetComponent<MainSceneStarLayer>().UpdateScore(Constant.PopStarScore);
+        StarLayer.GetComponent<GameSceneStarLayer>().UpdateScore(Constant.PopStarScore);
 
         //延迟检测星星的相邻
-        StarLayer.GetComponent<MainSceneStarLayer>().DelayCheckStarData();
+        StarLayer.GetComponent<GameSceneStarLayer>().DelayCheckStarData();
 
     }
 
