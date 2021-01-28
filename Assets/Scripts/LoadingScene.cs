@@ -6,25 +6,22 @@ using UnityEngine.UI;
 
 public class LoadingScene : MonoBehaviour
 {
-    private AsyncOperation async;
-    private uint nowProcess;
-    private Text btnStartText;
+    private AsyncOperation Async = null;
+    private Text BtnStartText;
 
     private IEnumerator LoadScene(int scene)
     {
-        async = SceneManager.LoadSceneAsync(scene);
-        async.allowSceneActivation = false;
+        Async = SceneManager.LoadSceneAsync(scene);
+        Async.allowSceneActivation = false;
 
-        yield return async;
+        yield return Async;
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        nowProcess = 0;
-
         GameObject btnStart = GameObject.Find("LoadingMsg");
-        btnStartText = btnStart.GetComponent<Text>();
+        BtnStartText = btnStart.GetComponent<Text>();
 
         int next_scene_index = PlayerPrefs.GetInt(Constant.NextSceneIndex, Constant.MainScene);
         StartCoroutine(LoadScene(next_scene_index));
@@ -34,38 +31,29 @@ public class LoadingScene : MonoBehaviour
     void Update()
     {
         //异步loading
-        if (async == null)
+        if (Async != null)
         {
-            return;
+            int to_process;
+
+            //Debug.Log(Async.progress * 100);
+
+            if (Async.progress < 0.9f) //坑爹的progress，最多到0.9f
+            {
+                to_process = (int)(Async.progress * 100);
+            }
+            else
+            {
+                to_process = 100;
+            }
+
+            //显示部分
+            BtnStartText.text = "已加载：" + to_process + "%";
+
+            if (to_process == 100) //Async.isDone应该是在场景被激活时才为true
+            {
+                Async.allowSceneActivation = true;
+            }
         }
-
-        uint to_process;
-
-        //Debug.Log(async.progress * 100);
-
-        if (async.progress < 0.9f) //坑爹的progress，最多到0.9f
-        {
-            to_process = (uint)(async.progress * 100);
-        }
-        else
-        {
-            to_process = 100;
-        }
-
-        if (nowProcess < to_process)
-        {
-            nowProcess++;
-        }
-
-        //显示部分
-        btnStartText.text = "已加载：" + nowProcess + "%";
-        //Debug.Log(btnStartText.text);
-
-        if (nowProcess == 100) //async.isDone应该是在场景被激活时才为true
-        {
-            async.allowSceneActivation = true;
-        }
-
         //异步loading end
     }
 }
