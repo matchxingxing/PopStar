@@ -33,18 +33,10 @@ public class LoadingScene : MonoBehaviour
         //异步loading
         if (Async != null)
         {
-            int to_process;
+            //坑爹的progress，最多到0.9f
+            int to_process = Async.progress < 0.9f ? (int)(Async.progress * 100) : 100;
 
             //Debug.Log(Async.progress * 100);
-
-            if (Async.progress < 0.9f) //坑爹的progress，最多到0.9f
-            {
-                to_process = (int)(Async.progress * 100);
-            }
-            else
-            {
-                to_process = 100;
-            }
 
             //显示部分
             BtnStartText.text = "已加载：" + to_process + "%";
